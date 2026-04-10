@@ -16,11 +16,11 @@ export default function MediaPreview({
 }: MediaPreviewProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [startTime, setStartTime] = useState(0);
-    const inlineVideoRef = useRef<HTMLVideoElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     const handleOpen = () => {
-        if (type === "video" && inlineVideoRef.current) {
-            setStartTime(inlineVideoRef.current.currentTime);
+        if (type === "video" && videoRef.current) {
+            setStartTime(videoRef.current.currentTime);
         }
         setIsOpen(true);
     };
@@ -28,26 +28,32 @@ export default function MediaPreview({
     return (
         <>
             <div
-                className={`group cursor-pointer overflow-hidden border border-stone-800 bg-stone-900 transition-colors hover:border-stone-600 ${className}`}
+                className={`group mt-4 cursor-pointer ${className}`}
                 onClick={handleOpen}
             >
-                {type === "video" ? (
-                    <video
-                        ref={inlineVideoRef}
-                        src={src}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="h-full w-full object-cover"
-                    />
-                ) : (
-                    <img
-                        src={src}
-                        alt={caption}
-                        className="h-full w-full object-cover"
-                    />
-                )}
+                <div className="aspect-video w-full overflow-hidden border border-stone-800 bg-stone-900 transition-colors group-hover:border-stone-600">
+                    {type === "video" ? (
+                        <video
+                            ref={videoRef}
+                            src={src}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            disablePictureInPicture
+                            className="h-full w-full object-cover"
+                        />
+                    ) : (
+                        <img
+                            src={src}
+                            alt={caption}
+                            className="h-full w-full object-cover"
+                        />
+                    )}
+                </div>
+                <p className="font-body mt-2 text-sm leading-relaxed text-stone-500">
+                    {caption}
+                </p>
             </div>
 
             {isOpen && (
@@ -103,22 +109,21 @@ function Lightbox({
             className="fixed inset-0 z-[9999] flex items-center justify-center p-8"
             onClick={onClose}
         >
-            <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
-            {/* Close Button */}
             <button
                 onClick={onClose}
-                className="absolute top-6 right-6 z-50 rounded-full bg-white/10 p-2 text-stone-300 transition-all hover:bg-white/20 hover:text-white"
-                aria-label="Close"
+                className="absolute top-6 right-6 z-50 cursor-pointer rounded-full bg-black/40 p-2 text-stone-400 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-white"
+                aria-label="Close lightbox"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
+                    width="28"
+                    height="28"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2.5"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                 >
@@ -128,7 +133,7 @@ function Lightbox({
             </button>
 
             <div
-                className="relative max-h-[90vh] max-w-[90vw]"
+                className="relative max-h-[85vh] max-w-[85vw]"
                 onClick={(e) => e.stopPropagation()}
             >
                 {type === "video" ? (
@@ -140,20 +145,20 @@ function Lightbox({
                         muted
                         playsInline
                         controls
-                        className="max-h-[85vh] max-w-full border border-stone-700 shadow-2xl"
+                        disablePictureInPicture
+                        controlsList="nodownload nopictureinpicture"
+                        className="max-h-[85vh] max-w-[85vw] border border-stone-700"
                     />
                 ) : (
                     <img
                         src={src}
                         alt={caption}
-                        className="max-h-[85vh] max-w-full border border-stone-700 shadow-2xl"
+                        className="max-h-[85vh] max-w-[85vw] border border-stone-700"
                     />
                 )}
-                {caption && (
-                    <p className="mt-4 text-center font-mono text-xs tracking-widest text-stone-400 uppercase">
-                        {caption}
-                    </p>
-                )}
+                <p className="font-body mt-3 text-center text-sm text-stone-400">
+                    {caption}
+                </p>
             </div>
         </div>,
         document.body

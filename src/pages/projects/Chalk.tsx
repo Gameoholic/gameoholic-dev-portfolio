@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import MediaPreview from "../../components/MediaPreview";
 export default function ChalkProject() {
     const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
@@ -71,17 +72,8 @@ export default function ChalkProject() {
     ];
     return (
         <div className="max-w-4xl space-y-10">
-            <div className="aspect-video w-full overflow-hidden border border-stone-800 bg-stone-900">
-                <video
-                    src="/chalk.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="h-full w-full object-cover"
-                    ref={videoRef}
-                />
-            </div>
+            <MediaPreview src={"/chalk.mp4"} type={"video"} />
+
             <div>
                 <h2 className="font-display mb-4 text-2xl font-black text-stone-100">
                     About

@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
+import MediaPreview from "../../components/MediaPreview";
 
 interface MediaItem {
     src: string;
@@ -7,158 +6,7 @@ interface MediaItem {
     caption: string;
 }
 
-function InlineMedia({
-    item,
-    onClick,
-}: {
-    item: MediaItem;
-    onClick: (currentTime: number) => void;
-}) {
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    const handleClick = () => {
-        // If it's a video, capture the exact current time to pass to the lightbox
-        const currentTime = videoRef.current ? videoRef.current.currentTime : 0;
-        onClick(currentTime);
-    };
-
-    return (
-        <div className="group mt-4 cursor-pointer" onClick={handleClick}>
-            <div className="aspect-video w-full overflow-hidden border border-stone-800 bg-stone-900 transition-colors group-hover:border-stone-600">
-                {item.type === "video" ? (
-                    <video
-                        ref={videoRef}
-                        src={item.src}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="h-full w-full object-cover"
-                    />
-                ) : (
-                    <img
-                        src={item.src}
-                        alt={item.caption}
-                        className="h-full w-full object-cover"
-                    />
-                )}
-            </div>
-            <p className="font-body mt-2 text-sm leading-relaxed text-stone-500">
-                {item.caption}
-            </p>
-        </div>
-    );
-}
-
-function Lightbox({
-    item,
-    startTime,
-    onClose,
-}: {
-    item: MediaItem;
-    startTime: number;
-    onClose: () => void;
-}) {
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    // Sync the timecode when the lightbox mounts
-    useEffect(() => {
-        if (videoRef.current && item.type === "video") {
-            videoRef.current.currentTime = startTime;
-        }
-    }, [startTime, item.type]);
-
-    useEffect(() => {
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
-        };
-        document.addEventListener("keydown", handleKey);
-        document.body.style.overflow = "hidden";
-        return () => {
-            document.removeEventListener("keydown", handleKey);
-            document.body.style.overflow = "";
-        };
-    }, [onClose]);
-
-    if (typeof document === "undefined") return null;
-
-    return createPortal(
-        <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-8"
-            onClick={onClose}
-        >
-            <div className="absolute inset-0 bg-black/80" />
-
-            {/* X Close Button */}
-            <button
-                onClick={onClose}
-                className="absolute top-6 right-6 z-50 cursor-pointer rounded-full bg-black/40 p-2 text-stone-400 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-white"
-                aria-label="Close lightbox"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-
-            <div
-                className="relative max-h-[85vh] max-w-[85vw]"
-                onClick={(e) => e.stopPropagation()}
-            >
-                {item.type === "video" ? (
-                    <video
-                        ref={videoRef}
-                        src={item.src}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        controls
-                        className="max-h-[85vh] max-w-[85vw] border border-stone-700"
-                    />
-                ) : (
-                    <img
-                        src={item.src}
-                        alt={item.caption}
-                        className="max-h-[85vh] max-w-[85vw] border border-stone-700"
-                    />
-                )}
-                <p className="font-body mt-3 text-center text-sm text-stone-400">
-                    {item.caption}
-                </p>
-            </div>
-        </div>,
-        document.body
-    );
-}
-
-export default function DanielsPortalDetail() {
-    // Upgraded state to track both the item and the exact time it was clicked
-    const [lightboxState, setLightboxState] = useState<{
-        item: MediaItem;
-        startTime: number;
-    } | null>(null);
-
-    // Main tour video ref
-    const tourVideoRef = useRef<HTMLVideoElement>(null);
-
-    const openLightbox = useCallback(
-        (item: MediaItem, startTime: number = 0) => {
-            setLightboxState({ item, startTime });
-        },
-        []
-    );
-
+export default function DanielsPortalProject() {
     const TECH = [
         "Next.js",
         "PostgreSQL",
@@ -221,33 +69,7 @@ export default function DanielsPortalDetail() {
 
     return (
         <div className="max-w-4xl space-y-10">
-            {lightboxState && (
-                <Lightbox
-                    item={lightboxState.item}
-                    startTime={lightboxState.startTime}
-                    onClose={() => setLightboxState(null)}
-                />
-            )}
-
-            <div
-                className="group aspect-video w-full cursor-pointer overflow-hidden border border-stone-800 bg-stone-900"
-                onClick={() =>
-                    openLightbox(
-                        tourVideo,
-                        tourVideoRef.current?.currentTime || 0
-                    )
-                }
-            >
-                <video
-                    ref={tourVideoRef}
-                    src={tourVideo.src}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="h-full w-full object-cover"
-                />
-            </div>
+            <MediaPreview src={tourVideo.src} type={tourVideo.type} />
 
             <div>
                 <h2 className="font-display mb-4 text-2xl font-black text-stone-100">
@@ -529,12 +351,10 @@ export default function DanielsPortalDetail() {
                                     className={`mt-4 grid gap-3 ${feature.media.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}
                                 >
                                     {feature.media.map((item) => (
-                                        <InlineMedia
-                                            key={item.src}
-                                            item={item}
-                                            onClick={(time) =>
-                                                openLightbox(item, time)
-                                            }
+                                        <MediaPreview
+                                            src={item.src}
+                                            type={item.type}
+                                            caption={item.caption}
                                         />
                                     ))}
                                 </div>
