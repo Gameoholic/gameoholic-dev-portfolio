@@ -40,9 +40,9 @@ const LINKS = [
 
 export default function Footer() {
     return (
-        <footer className="border-t border-stone-800 px-6 py-20 md:px-16 lg:px-32">
+        <footer className="border-t border-stone-800 px-6 py-10 md:px-16 lg:px-32">
             <div className="flex flex-col items-center gap-10">
-                <div className="flex justify-center gap-6">
+                <div className="flex gap-6">
                     {LINKS.map((link) => (
                         <a
                             key={link.label}
