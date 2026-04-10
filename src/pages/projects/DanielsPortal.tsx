@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 
 interface MediaItem {
     src: string;
@@ -11,13 +12,22 @@ function InlineMedia({
     onClick,
 }: {
     item: MediaItem;
-    onClick: () => void;
+    onClick: (currentTime: number) => void;
 }) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const handleClick = () => {
+        // If it's a video, capture the exact current time to pass to the lightbox
+        const currentTime = videoRef.current ? videoRef.current.currentTime : 0;
+        onClick(currentTime);
+    };
+
     return (
-        <div className="group mt-4 cursor-pointer" onClick={onClick}>
+        <div className="group mt-4 cursor-pointer" onClick={handleClick}>
             <div className="aspect-video w-full overflow-hidden border border-stone-800 bg-stone-900 transition-colors group-hover:border-stone-600">
                 {item.type === "video" ? (
                     <video
+                        ref={videoRef}
                         src={item.src}
                         autoPlay
                         loop
@@ -40,7 +50,24 @@ function InlineMedia({
     );
 }
 
-function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
+function Lightbox({
+    item,
+    startTime,
+    onClose,
+}: {
+    item: MediaItem;
+    startTime: number;
+    onClose: () => void;
+}) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    // Sync the timecode when the lightbox mounts
+    useEffect(() => {
+        if (videoRef.current && item.type === "video") {
+            videoRef.current.currentTime = startTime;
+        }
+    }, [startTime, item.type]);
+
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
@@ -53,18 +80,44 @@ function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
         };
     }, [onClose]);
 
-    return (
+    if (typeof document === "undefined") return null;
+
+    return createPortal(
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-8"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-8"
             onClick={onClose}
         >
             <div className="absolute inset-0 bg-black/80" />
+
+            {/* X Close Button */}
+            <button
+                onClick={onClose}
+                className="absolute top-6 right-6 z-50 cursor-pointer rounded-full bg-black/40 p-2 text-stone-400 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-white"
+                aria-label="Close lightbox"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
             <div
                 className="relative max-h-[85vh] max-w-[85vw]"
                 onClick={(e) => e.stopPropagation()}
             >
                 {item.type === "video" ? (
                     <video
+                        ref={videoRef}
                         src={item.src}
                         autoPlay
                         loop
@@ -84,16 +137,27 @@ function Lightbox({ item, onClose }: { item: MediaItem; onClose: () => void }) {
                     {item.caption}
                 </p>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }
 
 export default function DanielsPortalDetail() {
-    const [lightboxItem, setLightboxItem] = useState<MediaItem | null>(null);
+    // Upgraded state to track both the item and the exact time it was clicked
+    const [lightboxState, setLightboxState] = useState<{
+        item: MediaItem;
+        startTime: number;
+    } | null>(null);
 
-    const openLightbox = useCallback((item: MediaItem) => {
-        setLightboxItem(item);
-    }, []);
+    // Main tour video ref
+    const tourVideoRef = useRef<HTMLVideoElement>(null);
+
+    const openLightbox = useCallback(
+        (item: MediaItem, startTime: number = 0) => {
+            setLightboxState({ item, startTime });
+        },
+        []
+    );
 
     const TECH = [
         "Next.js",
@@ -157,18 +221,25 @@ export default function DanielsPortalDetail() {
 
     return (
         <div className="max-w-4xl space-y-10">
-            {lightboxItem && (
+            {lightboxState && (
                 <Lightbox
-                    item={lightboxItem}
-                    onClose={() => setLightboxItem(null)}
+                    item={lightboxState.item}
+                    startTime={lightboxState.startTime}
+                    onClose={() => setLightboxState(null)}
                 />
             )}
 
             <div
                 className="group aspect-video w-full cursor-pointer overflow-hidden border border-stone-800 bg-stone-900"
-                onClick={() => openLightbox(tourVideo)}
+                onClick={() =>
+                    openLightbox(
+                        tourVideo,
+                        tourVideoRef.current?.currentTime || 0
+                    )
+                }
             >
                 <video
+                    ref={tourVideoRef}
                     src={tourVideo.src}
                     autoPlay
                     loop
@@ -192,10 +263,10 @@ export default function DanielsPortalDetail() {
                 <p className="font-body mb-6 text-lg leading-relaxed text-stone-400">
                     This project is still a work in progress and currently on
                     hold due to its scope, so expect placeholders and incomplete
-                    pages. That said, I've created some throwaway accounts for
-                    you to explore the existing features. Since anyone can log
-                    in, keep in mind others may have messed with the permissions
-                    and settings.
+                    pages. With that said, I've created some throwaway accounts
+                    for you to explore the existing features. Since anyone can
+                    log in, keep in mind others may have messed with the
+                    permissions and settings.
                 </p>
                 <div className="space-y-4 border border-stone-700 bg-stone-900/50 p-5">
                     <p className="font-mono text-xs tracking-widest text-amber-400 uppercase">
@@ -461,7 +532,9 @@ export default function DanielsPortalDetail() {
                                         <InlineMedia
                                             key={item.src}
                                             item={item}
-                                            onClick={() => openLightbox(item)}
+                                            onClick={(time) =>
+                                                openLightbox(item, time)
+                                            }
                                         />
                                     ))}
                                 </div>
