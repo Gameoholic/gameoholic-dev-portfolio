@@ -5,6 +5,7 @@ interface MediaPreviewProps {
     src: string;
     type: "image" | "video";
     caption?: string;
+    startTimestamp?: number;
     className?: string;
 }
 
@@ -12,6 +13,7 @@ export default function MediaPreview({
     src,
     type,
     caption,
+    startTimestamp,
     className = "",
 }: MediaPreviewProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +44,15 @@ export default function MediaPreview({
                             playsInline
                             disablePictureInPicture
                             className="h-full w-full object-cover"
+                            onLoadedMetadata={() => {
+                                if (
+                                    videoRef.current &&
+                                    startTimestamp !== undefined
+                                ) {
+                                    videoRef.current.currentTime =
+                                        startTimestamp;
+                                }
+                            }}
                         />
                     ) : (
                         <img

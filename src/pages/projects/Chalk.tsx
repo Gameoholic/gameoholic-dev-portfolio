@@ -72,7 +72,11 @@ export default function ChalkProject() {
     ];
     return (
         <div className="max-w-4xl space-y-10">
-            <MediaPreview src={"/chalk.mp4"} type={"video"} />
+            <MediaPreview
+                src={"/chalk.mp4"}
+                type={"video"}
+                startTimestamp={7}
+            />
 
             <div>
                 <h2 className="font-display mb-4 text-2xl font-black text-stone-100">
