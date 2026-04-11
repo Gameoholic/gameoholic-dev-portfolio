@@ -38,8 +38,8 @@ export default function Home() {
                         </span>
                         <span className="absolute right-0 bottom-1 left-0 z-0 h-2 -rotate-1 bg-amber-400/20" />
                     </span>
-                    .<br />
-                    <span className="text-stone-400 italic">
+                    .{" "}
+                    <span className="block text-stone-400 italic">
                         The rest too, when needed.
                     </span>
                 </h1>
