@@ -32,13 +32,15 @@ export default function Home() {
                         />
                     </span>
                     I build{" "}
-                    <span className="relative inline-block">
-                        <span className="relative z-10 text-amber-400">
-                            backend systems
+                    <span className="whitespace-nowrap">
+                        <span className="relative inline-block">
+                            <span className="relative z-10 text-amber-400">
+                                backend systems
+                            </span>
+                            <span className="absolute right-0 bottom-1 left-0 z-0 h-2 -rotate-1 bg-amber-400/20" />
                         </span>
-                        <span className="absolute right-0 bottom-1 left-0 z-0 h-2 -rotate-1 bg-amber-400/20" />
+                        .{" "}
                     </span>
-                    .{" "}
                     <span className="block text-stone-400 italic">
                         The rest too, when needed.
                     </span>
