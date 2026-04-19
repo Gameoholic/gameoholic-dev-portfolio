@@ -1,7 +1,7 @@
 const LINKS = [
     {
         label: "Mail",
-        href: "mailto:viner.atmic@gmail.com",
+        href: "mailto:daniel.tarasyuk05@gmail.com",
         icon: (
             <svg
                 className="h-5 w-5"
