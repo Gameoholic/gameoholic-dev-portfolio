@@ -24,7 +24,7 @@ export default function Home() {
             <section className="mx-auto mt-15 w-full max-w-6xl px-6 pt-10 pb-12">
                 <h1 className="font-display mb-4 text-6xl leading-tight font-black text-stone-100 md:text-6xl">
                     <span className="flex items-center gap-4 text-4xl">
-                        Hi, I'm Daniel. test
+                        Hi, I'm Daniel.
                         <img
                             src="/avatar.jpg"
                             alt=""
