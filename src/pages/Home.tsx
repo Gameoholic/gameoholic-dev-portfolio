@@ -21,8 +21,8 @@ export default function Home() {
 
     return (
         <div ref={containerRef}>
-            <section className="mt-15 px-6 pt-10 pb-12 md:px-64 lg:px-128">
-                <h1 className="font-display mb-4 text-5xl leading-tight font-black text-stone-100 md:text-6xl">
+            <section className="mx-auto mt-15 w-full max-w-6xl px-6 pt-10 pb-12">
+                <h1 className="font-display mb-4 text-6xl leading-tight font-black text-stone-100 md:text-6xl">
                     <span className="flex items-center gap-4 text-4xl">
                         Hi, I'm Daniel.
                         <img
@@ -65,12 +65,15 @@ export default function Home() {
                 </p>
             </section>
 
-            <section id="projects" className="px-6 pb-24 md:px-64 lg:px-128">
+            <section
+                id="projects"
+                className="mx-auto w-full max-w-6xl px-6 pb-24"
+            >
                 <div className="mb-10 flex items-center gap-6">
                     <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
                         01
                     </span>
-                    <h2 className="font-display text-4xl font-black text-stone-100 md:text-5xl">
+                    <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
                         Projects
                     </h2>
                     <div className="hidden h-px flex-1 bg-stone-800 md:block" />
@@ -83,24 +86,23 @@ export default function Home() {
                 </div>
             </section>
 
-            <section
-                id="skills"
-                className="bg-stone-950/50 px-6 py-24 md:px-64 lg:px-128"
-            >
-                <div className="mb-16 flex items-center gap-6">
-                    <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
-                        02
-                    </span>
-                    <h2 className="font-display text-4xl font-black text-stone-100 md:text-5xl">
-                        Skills & Technologies
-                    </h2>
-                    <div className="hidden h-px flex-1 bg-stone-800 md:block" />
-                </div>
+            <section id="skills" className="w-full bg-stone-950/50">
+                <div className="mx-auto w-full max-w-6xl px-6 py-24">
+                    <div className="mb-16 flex items-center gap-6">
+                        <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
+                            02
+                        </span>
+                        <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
+                            Skills & Technologies
+                        </h2>
+                        <div className="hidden h-px flex-1 bg-stone-800 md:block" />
+                    </div>
 
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {SKILL_GROUPS.map((group) => (
-                        <SkillGroup key={group.label} group={group} />
-                    ))}
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {SKILL_GROUPS.map((group) => (
+                            <SkillGroup key={group.label} group={group} />
+                        ))}
+                    </div>
                 </div>
             </section>
         </div>
