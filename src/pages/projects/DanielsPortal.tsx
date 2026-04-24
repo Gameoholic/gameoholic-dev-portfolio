@@ -205,8 +205,8 @@ export default function DanielsPortalProject() {
                                     security for performance. With JWTs, a
                                     compromised session can't be revoked until
                                     the token naturally expires, typically 5 to
-                                    15 minutes. In a personal portal that might
-                                    host a banking app or a private email
+                                    15 minutes. In a personal system that might
+                                    host my house's surveillance cameras or a private email
                                     client, that time window is unacceptable, I
                                     need to be able to kill a session
                                     immediately.
