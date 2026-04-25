@@ -67,7 +67,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-12 border-t border-stone-900 pt-6">
-                <p className="text-center font-mono text-xs text-stone-700">
+                <p className="text-center font-mono text-xs text-stone-500">
                     © {new Date().getFullYear()} Daniel Tarasyuk - Gameoholic.{" "}
                     <br />
                     Built with React + TypeScript + Tailwind + Vite.
