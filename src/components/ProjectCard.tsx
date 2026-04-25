@@ -33,7 +33,7 @@ export default function ProjectCard({ project }: Props) {
             </div>
 
             {/* Action buttons */}
-            <div className="mt-auto flex flex-wrap gap-3">
+            <div className="mt-auto flex justify-start gap-3">
                 {project.visitUrl && (
                     <a
                         href={project.visitUrl}
