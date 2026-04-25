@@ -74,8 +74,35 @@ export default function Home() {
                         01
                     </span>
                     <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
-                        Projects
+                        Web Dev Projects
                     </h2>
+                    <div className="hidden h-px flex-1 bg-stone-800 md:block" />
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {PROJECTS.map((project) => (
+                        <ProjectCard key={project.slug} project={project} />
+                    ))}
+                </div>
+            </section>
+
+            <section
+                id="older-projects"
+                className="mx-auto w-full max-w-6xl px-6 pb-24"
+            >
+                <div className="mb-10 flex items-center gap-6">
+                    <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
+                        02
+                    </span>
+                <div>
+                    <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
+                        The Rest
+                    </h2>
+                    <p className="font-display text-xl text-stone-400 italic mt-1">
+                        Some of my favorite older projects that don't have to do with web development.
+                    </p>
+                </div>
+                    
                     <div className="hidden h-px flex-1 bg-stone-800 md:block" />
                 </div>
 
@@ -90,7 +117,7 @@ export default function Home() {
                 <div className="mx-auto w-full max-w-6xl px-6 py-24">
                     <div className="mb-16 flex items-center gap-6">
                         <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
-                            02
+                            03
                         </span>
                         <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
                             Skills & Technologies
