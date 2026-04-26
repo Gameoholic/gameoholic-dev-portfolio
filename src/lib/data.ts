@@ -56,7 +56,7 @@ export const OLDER_PROJECTS: Project[] = [
         slug: "the-startup",
         title: "The Startup",
         description:
-            "A Minecraft event built for TopStrix in collaboration with Ben-Gurion University, teaching entrepreneurship to kids. 3,000+ unique players and 16,000 logins in the first week. Featured in Jerusalem Post and ynet.",
+            "A Minecraft event built for TopStrix in collaboration with Ben-Gurion University, teaching entrepreneurship to kids. 3,000+ unique players and 16,000 logins in the first week. Featured on Jerusalem Post and ynet.",
         tags: ["Java", "Minecraft", "Game", "MySQL", "Redis"],
         sourceUrl: "",
     },
