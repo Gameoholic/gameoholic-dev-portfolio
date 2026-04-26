@@ -1,11 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ProjectCard from "../components/ProjectCard";
 import SkillGroup from "../components/SkillGroup";
-import { PROJECTS, SKILL_GROUPS } from "../lib/data";
+import { OLDER_PROJECTS, PROJECTS, SKILL_GROUPS } from "../lib/data";
 
 export default function Home() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [showRest, setShowRest] = useState(false);
 
     useEffect(() => {
         const el = containerRef.current;
@@ -67,7 +68,7 @@ export default function Home() {
 
             <section
                 id="projects"
-                className="mx-auto w-full max-w-6xl px-6 pb-24"
+                className="mx-auto w-full max-w-6xl px-6 pb-12"
             >
                 <div className="mb-10 flex items-center gap-6">
                     <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
@@ -88,28 +89,53 @@ export default function Home() {
 
             <section
                 id="older-projects"
-                className="mx-auto w-full max-w-6xl px-6 pb-24"
+                className="mx-auto w-full max-w-6xl px-6 pb-12"
             >
-                <div className="mb-10 flex items-center gap-6">
-                    <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
-                        02
-                    </span>
-                <div>
-                    <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
-                        The Rest
-                    </h2>
-                    <p className="font-display text-xl text-stone-400 italic mt-1">
-                        Some of my favorite older projects that don't have to do with web development.
-                    </p>
-                </div>
-                    
-                    <div className="hidden h-px flex-1 bg-stone-800 md:block" />
+                <div
+                    className={`grid transition-all duration-700 ease-in-out ${
+                        showRest
+                            ? "grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] opacity-0"
+                    }`}
+                >
+                    <div className="overflow-hidden">
+                        <div className="mb-10 flex items-center gap-6">
+                            <span className="font-mono text-xs tracking-[0.2em] text-amber-400 uppercase">
+                                02
+                            </span>
+                            <div>
+                                <h2 className="font-display text-4xl font-black text-stone-100 md:text-6xl">
+                                    The Rest
+                                </h2>
+                                <p className="font-display mt-1 text-xl text-stone-400 italic">
+                                    Some of my favorite older projects that
+                                    don't have to do with web development.
+                                </p>
+                            </div>
+                            <div className="hidden h-px flex-1 bg-stone-800 md:block" />
+                        </div>
+
+                        <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                            {OLDER_PROJECTS.map((project) => (
+                                <ProjectCard
+                                    key={project.slug}
+                                    project={project}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {PROJECTS.map((project) => (
-                        <ProjectCard key={project.slug} project={project} />
-                    ))}
+                <div className="flex justify-center">
+                    <button
+                        onClick={() => setShowRest(!showRest)}
+                        className="group flex cursor-pointer items-center gap-2 font-mono text-sm tracking-[0.2em] text-amber-400 uppercase transition-colors hover:text-amber-300"
+                    >
+                        {showRest ? "See less" : "See more?"}
+                        <span className="transition-transform group-hover:translate-y-0.5">
+                            {showRest ? "↑" : "↓"}
+                        </span>
+                    </button>
                 </div>
             </section>
 

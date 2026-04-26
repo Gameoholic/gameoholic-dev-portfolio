@@ -36,11 +36,53 @@ export const PROJECTS: Project[] = [
     },
 ];
 
+export const OLDER_PROJECTS: Project[] = [
+    {
+        slug: "better-tic-tac-toe",
+        title: "Better Tic Tac Toe",
+        description:
+            "A multiplayer mobile game with a scalable distributed backend. I added a couple of simple rules that turn the boring, solved Tic Tac Toe into a strategic 30-minute match.",
+        tags: [
+            "Godot",
+            "GDScript",
+            "Game",
+            "Distributed Systems",
+            "Microservices",
+        ],
+        sourceUrl:
+            "https://github.com/Gameoholic/Better-Tic-Tac-Toe-Public-Client",
+    },
+    {
+        slug: "the-startup",
+        title: "The Startup",
+        description:
+            "A Minecraft event built for TopStrix in collaboration with Ben-Gurion University, teaching entrepreneurship to kids. 3,000+ unique players and 16,000 logins in the first week. Featured in Jerusalem Post and ynet.",
+        tags: ["Java", "Minecraft", "Game", "MySQL", "Redis"],
+        sourceUrl: "",
+    },
+    {
+        slug: "partigon",
+        title: "Partigon",
+        description:
+            "An open-source Kotlin library for Minecraft modders that abstracts the math away from making complex particle animations. Uses a DSL-style builder API for clean, readable animation code.",
+        tags: ["Kotlin", "Library", "Minecraft"],
+        sourceUrl: "https://github.com/Gameoholic/Partigon",
+    },
+];
+
 export const SKILL_GROUPS: SkillGroup[] = [
     {
         label: "Languages",
         icon: "</>",
-        skills: ["TypeScript", "JavaScript", "Java", "Kotlin", "Python", "C++"],
+        skills: [
+            "TypeScript",
+            "JavaScript",
+            "Java",
+            "Kotlin",
+            "Python",
+            "C++",
+            "C#",
+        ],
     },
     {
         label: "Backend & Databases",

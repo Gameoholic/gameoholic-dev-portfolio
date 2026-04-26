@@ -1,21 +1,30 @@
 import { useParams, Navigate, useNavigate, Link } from "react-router-dom";
 import { PROJECTS } from "../../lib/data";
+import { OLDER_PROJECTS } from "../../lib/data";
 import ChalkProject from "./Chalk";
 import DanielsPortalProject from "./DanielsPortal";
-import TrutensilsDetail from "./Trutensils";
+import PartigonProject from "./Partigon";
+import TrutensilsProject from "./Trutensils";
+import TheStartupProject from "./TheStartup";
+import BetterTicTacToe from "./BetterTicTacToe";
 import { smoothScrollToElement } from "../../lib/scroll";
 import type { JSX } from "react";
 
 const PROJECT_COMPONENTS: Record<string, () => JSX.Element> = {
     chalk: ChalkProject,
     "daniels-portal": DanielsPortalProject,
-    trutensils: TrutensilsDetail,
+    trutensils: TrutensilsProject,
+    partigon: PartigonProject,
+    "the-startup": TheStartupProject,
+    "better-tic-tac-toe": BetterTicTacToe,
 };
 
 export default function ProjectDetail() {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
-    const project = PROJECTS.find((p) => p.slug === slug);
+    const project =
+        PROJECTS.find((p) => p.slug === slug) ??
+        OLDER_PROJECTS.find((p) => p.slug === slug);
 
     if (!project || !slug || !PROJECT_COMPONENTS[slug])
         return <Navigate to="/" replace />;
@@ -122,8 +131,9 @@ export default function ProjectDetail() {
                         Other projects
                     </p>
                     <div className="flex flex-wrap gap-4">
-                        {PROJECTS.filter((p) => p.slug !== project.slug).map(
-                            (p) => (
+                        {[...PROJECTS, ...OLDER_PROJECTS]
+                            .filter((p) => p.slug !== project.slug)
+                            .map((p) => (
                                 <Link
                                     key={p.slug}
                                     to={`/projects/${p.slug}`}
@@ -131,8 +141,7 @@ export default function ProjectDetail() {
                                 >
                                     {p.title}
                                 </Link>
-                            )
-                        )}
+                            ))}
                     </div>
                 </div>
             </div>
