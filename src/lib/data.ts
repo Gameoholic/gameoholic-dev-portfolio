@@ -23,7 +23,7 @@ export const PROJECTS: Project[] = [
         slug: "trutensils",
         title: "Trutensils",
         description:
-            "A practical full-stack computer vision project hosted on a Raspberry Pi that detects when restaurant staff accidentally throw utensils in the trash.",
+            "A full-stack computer vision project hosted on a Raspberry Pi that detects when restaurant staff accidentally throw utensils in the trash.",
         tags: [
             "Python",
             "YOLO",
