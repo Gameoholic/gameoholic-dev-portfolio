@@ -52,9 +52,8 @@ export default function Home() {
                     </span>
                 </h1>
                 <p className="font-body max-w-2xl text-lg leading-relaxed text-stone-400">
-                    Self-taught since I was a kid: Making silly just-for-fun
-                    projects then, building grown-up projects now. I once spent
-                    an entire weekend securing an auth system for an app with
+                    Self-taught developer since I was a kid. I once spent an
+                    entire weekend securing an auth system for an app with
                     exactly one user: me (
                     <Link
                         to="/projects/daniels-portal"
@@ -62,7 +61,7 @@ export default function Home() {
                     >
                         portaldaniel.com
                     </Link>
-                    )
+                    ).
                 </p>
             </section>
 
