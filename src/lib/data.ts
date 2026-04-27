@@ -31,7 +31,7 @@ export const PROJECTS: Project[] = [
             "Raspberry Pi",
             "Node.js",
             "WebSockets",
-            "Microservices",
+            "Computer Vision",
         ],
     },
 ];
