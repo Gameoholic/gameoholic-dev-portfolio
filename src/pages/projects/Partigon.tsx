@@ -34,7 +34,7 @@ export default function PartigonProject() {
                 </p>
                 <div className="flex flex-wrap gap-3 pt-3">
                     <a
-                        href="https://partigon.gameoholic.xyz/"
+                        href="https://github.com/Gameoholic/Partigon/wiki"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 bg-amber-400 px-4 py-2.5 font-mono text-xs font-bold tracking-widest text-stone-900 uppercase transition-colors hover:bg-amber-300"
